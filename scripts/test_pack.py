@@ -74,6 +74,18 @@ class PackChecks(unittest.TestCase):
         argv = plan_routines(*args, linear_scope="linear:install-id:team-id")["routines"][0]["argv"]
         self.assertIn("linear.issue_created in=linear:install-id:team-id", argv)
 
+    def test_grouped_bots_can_plan_recipes_from_each_module(self):
+        profile = confirmed_profile()
+        reviews = ("review-catchup", "maintenance-digest", "security-catchup")
+        releases = ("release-readiness", "infra-health")
+        for role, recipes in (("review-maintenance", reviews), ("release-operations", releases)):
+            with self.subTest(role=role):
+                plan = plan_routines(profile, role, "Grouped bot", recipes, [])
+                self.assertEqual([job["id"] for job in plan["routines"]], list(recipes))
+                self.assertTrue(all("--disabled" in job["argv"] for job in plan["routines"]))
+        with self.assertRaisesRegex(ValueError, "Unknown routine for review-maintenance"):
+            plan_routines(profile, "review-maintenance", "Grouped bot", releases, [])
+
     def test_changed_head_or_contract_invalidates_handoff(self):
         handoff = load_json(ROOT / "profiles" / "handoff.example.json")
         profile = confirmed_profile()

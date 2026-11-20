@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / "templates"
 OUTPUT = ROOT / "dist"
-ROLES = (
+MODULES = (
     "spec-delivery",
     "pr-review-docs",
     "repo-maintenance",
@@ -17,6 +17,11 @@ ROLES = (
     "release-environments",
     "infrastructure-operations",
 )
+GROUPS = {
+    "review-maintenance": ("pr-review-docs", "repo-maintenance", "security-dependencies"),
+    "release-operations": ("release-environments", "infrastructure-operations"),
+}
+ROLES = (*MODULES, *GROUPS)
 SAFE_DEFAULTS = {"enabled": False, "results_to": "chat", "runs_in": "new"}
 CRON_FIELD = re.compile(r"\*|([0-9]+)(?:-([0-9]+))?")
 CRON_BOUNDS = ((0, 59), (0, 23), (1, 31), (1, 12), (0, 6))
@@ -41,7 +46,7 @@ def load_routines():
     if manifest["version"] != 1 or manifest["defaults"] != SAFE_DEFAULTS:
         raise ValueError("Unsupported routine version or unsafe defaults")
 
-    routines_by_role = {role: [] for role in ROLES}
+    routines_by_role = {role: [] for role in MODULES}
     seen = set()
     for routine in manifest["routines"]:
         role, routine_id = routine["bot"], routine["id"]
@@ -57,6 +62,10 @@ def load_routines():
             raise ValueError(f"Invalid event configuration: {routine_id}")
         routines_by_role[role].append(routine)
         seen.add(routine_id)
+    for role, modules in GROUPS.items():
+        routines_by_role[role] = [
+            routine for module in modules for routine in routines_by_role[module]
+        ]
     return routines_by_role
 
 
@@ -73,6 +82,18 @@ def render_routine(routine):
     )
 
 
+def render_role(role):
+    role_text = (TEMPLATES / f"{role}.md").read_text(encoding="utf-8").strip()
+    if role in GROUPS:
+        sections = [role_text]
+        for module in GROUPS[role]:
+            sections.append(re.sub(r"^(?=#+ )", "#", render_role(module), flags=re.MULTILINE))
+        return "\n\n".join(sections)
+    if "## First-run questions" not in role_text or "Onboarding dry run:" not in role_text:
+        raise ValueError(f"Template {role} requires an interview and dry run")
+    return role_text
+
+
 def build(check):
     common = (TEMPLATES / "common.md").read_text(encoding="utf-8").strip()
     routines_by_role = load_routines()
@@ -80,10 +101,19 @@ def build(check):
         OUTPUT.mkdir(exist_ok=True)
     stale = []
     for role, routines in routines_by_role.items():
-        role_text = (TEMPLATES / f"{role}.md").read_text(encoding="utf-8").strip()
-        if "## First-run questions" not in role_text or "Onboarding dry run:" not in role_text:
-            raise ValueError(f"Template {role} requires an interview and dry run")
-        routine_text = "\n".join(render_routine(routine) for routine in routines)
+        role_text = render_role(role)
+        if role in GROUPS:
+            sections = []
+            for module in GROUPS[role]:
+                title = render_role(module).splitlines()[0].removeprefix("# ")
+                recipes = "\n".join(
+                    "#" + render_routine(routine)
+                    for routine in routines_by_role[module]
+                )
+                sections.append(f"### {title}\n\n{recipes}")
+            routine_text = "\n".join(sections)
+        else:
+            routine_text = "\n".join(render_routine(routine) for routine in routines)
         contents = (
             f"{role_text}\n\n{common}\n\n"
             "## Optional Orca routines\n\n"
