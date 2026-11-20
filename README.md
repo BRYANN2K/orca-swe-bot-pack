@@ -20,11 +20,15 @@ Between a spec and a release, there is work that repeats. Someone has to find th
 - **Start with delivery and review.** Give both bots the same confirmed project profile. Add Release & Operations when you need deployment or infrastructure follow-up.
 - **Review routines before they run.** Choose the scope and destination, try a historical case, and create selected routines paused. Set permissions separately for worker dispatch, PR publication, cleanup and deployment.
 
-**Status.** The three bot prompts, six standalone modules, and local preflight are available. Native Share Bot transfer and live delivery of automation events still need a recipient-side Orca test.
+**Status.** The three native Orca shares, six standalone modules, and local preflight are available. A full recipient-side import and live delivery of automation events still need an Orca test.
 
 ## Quick start
 
 You need Orca with Bots enabled and an agent available on the chosen host. Python 3.10+ is required for the optional local preflight commands.
+
+In Orca, open **Bots → + → New bot → Start from a template → From a link**. Paste one of the links below, review the contents, and choose the host, agent, and permissions. Use the setup note to start the interview. Starter automations arrive paused.
+
+### Install from Git
 
 From the parent directory where you keep projects, clone the pack and add it to Orca. The private repository requires GitHub SSH access on that host.
 
@@ -49,11 +53,11 @@ Sample profiles for [Stipulate](profiles/stipulate.json), [OpenSpec](profiles/op
 
 ## The three bots
 
-| Bot | Capabilities |
-| --- | --- |
-| [Spec & Delivery](dist/spec-delivery.md) | Triage issues from GitHub, GitLab or Linear and turn one ready work item into an approved spec. |
-| [Review & Maintenance](dist/review-maintenance.md) | Independent PR and docs review, repository and worktree maintenance, and security and dependency triage. |
-| [Release & Operations](dist/release-operations.md) | Optional bot for environment promotions, release notes, rollback, and infrastructure health. |
+| Bot | Capabilities | Orca |
+| --- | --- | --- |
+| [Spec & Delivery](dist/spec-delivery.md) | Triage issues from GitHub, GitLab or Linear and turn one ready work item into an approved spec. | [Import Spec & Delivery](https://share.onorca.dev/bots/share/a3e4b58b003b4f488f77b72aea395267) |
+| [Review & Maintenance](dist/review-maintenance.md) | Independent PR and docs review, repository and worktree maintenance, and security and dependency triage. | [Import Review & Maintenance](https://share.onorca.dev/bots/share/a09dc9edd8d44ef2b659856fb274d151) |
+| [Release & Operations](dist/release-operations.md) | Optional bot for environment promotions, release notes, rollback, and infrastructure health. | [Import Release & Operations](https://share.onorca.dev/bots/share/0995ad64efdd4c518e750e458a4eca71) |
 
 Enable modules one at a time within each bot. The original prompts also work as standalone modules.
 
@@ -76,7 +80,7 @@ Security and infra changes can enter the same flow. An advisory or a GitOps disc
 
 ## Share templates through Orca
 
-Use the Markdown files linked above to install locally. To distribute via **Share Bot**, prepare a clean reference bot for each role and review the contents before publishing its link. The [import guide](docs/orca-import.md) explains what Orca v1.4.266 can carry in a link, which schedules arrive paused, and which connectors and event targets the recipient configures.
+Each native share includes the role, its setup note, its skills, and its paused starter schedules. The [import guide](docs/orca-import.md) documents how to rebuild a share and which connector and event settings recipients supply.
 
 ## Develop and verify
 
