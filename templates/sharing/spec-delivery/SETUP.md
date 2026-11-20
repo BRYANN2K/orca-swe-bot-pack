@@ -1,0 +1,1 @@
+First, ask which GitHub repositories, GitLab projects, and Linear teams to read. Confirm the planning tracker, how to recognize intentional mirrors, the spec approval signal, and the timezone. Use one historical issue for a read-only trial. Keep the imported issue catch-up paused until the owner confirms its scope and schedule.
