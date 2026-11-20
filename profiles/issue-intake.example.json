@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "scope": "github:github.com/example/widget",
+      "status": "complete"
+    },
+    {
+      "scope": "gitlab:gitlab.example.com/platform/widget",
+      "status": "complete"
+    },
+    {
+      "scope": "linear:example",
+      "status": "complete"
+    }
+  ],
+  "issues": [
+    {
+      "ref": "github:github.com/example/widget:42",
+      "url": "https://github.com/example/widget/issues/42",
+      "title": "Export stalls on large files",
+      "status": "open"
+    },
+    {
+      "ref": "linear:example:11111111-2222-3333-4444-555555555555",
+      "url": "https://linear.app/example/issue/ENG-18/export-stalls-on-large-files",
+      "title": "Export stalls on large files",
+      "status": "open"
+    },
+    {
+      "ref": "gitlab:gitlab.example.com/platform/widget:7",
+      "url": "https://gitlab.example.com/platform/widget/-/issues/7",
+      "title": "Export stalls on large files",
+      "status": "open"
+    }
+  ],
+  "work_links": [
+    {
+      "id": "work:widget-export-timeout",
+      "primary": "linear:example:11111111-2222-3333-4444-555555555555",
+      "refs": [
+        "github:github.com/example/widget:42",
+        "linear:example:11111111-2222-3333-4444-555555555555"
+      ],
+      "evidence": "Example of an owner-confirmed mirror mapping in the project tracker."
+    }
+  ]
+}
