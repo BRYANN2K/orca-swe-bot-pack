@@ -19,7 +19,7 @@
     "head_sha": "0123456789abcdef0123456789abcdef01234567",
     "pr": 42
   },
-  "next_role": "pr-review-docs",
+  "next_role": "review-maintenance",
   "criteria": [
     {
       "id": "AC-1",

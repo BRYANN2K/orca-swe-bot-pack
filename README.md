@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="assets/banner.png" alt="Orca SWE Bot Pack. Six pixel-art engineering bots represent specs, PR review, worktrees, security, releases, and infrastructure." width="100%">
+<img src="assets/banner.png" alt="Orca SWE Bot Pack. Three pixel-art bots represent delivery, review and maintenance, and release and operations." width="100%">
 
-**Six bot templates for software and product engineers working with AI agents.**
+**Three bot templates for software and product engineers working with AI agents.**
 
 Start with one job. Each bot learns your repo, your workflow, and what it can do before you turn on its routines.
 
-[Quick start](#quick-start) · [Browse the bots](#the-six-bots) · [Issue intake & Agile delivery](docs/issue-intake.md) · [Orca import and sharing](docs/orca-import.md)
+[Quick start](#quick-start) · [Browse the bots](#the-three-bots) · [Issue intake & Agile delivery](docs/issue-intake.md) · [Orca import and sharing](docs/orca-import.md)
 
 </div>
 
@@ -17,10 +17,10 @@ Start with one job. Each bot learns your repo, your workflow, and what it can do
 Between a spec and a release, there is work that repeats. Someone has to find the approved contract, check the PR against it, update the docs, reuse the right worktree, and verify what actually shipped. The templates give those jobs a consistent home in Orca.
 
 - **Bring your own workflow.** Start with [Stipulate](https://github.com/BRYANN2K/stipulate-skills), OpenSpec, Markdown specs, or your team's process. Each bot asks about the branches, CI, environments and approval signals it needs for its role.
-- **Install one bot at a time.** Start with review, maintenance or another job you already do. Give the next bot the confirmed project profile so it can reuse those answers.
+- **Start with delivery and review.** Give both bots the same confirmed project profile. Add Release & Operations when you need deployment or infrastructure follow-up.
 - **Review routines before they run.** Choose the scope and destination, try a historical case, and create selected routines paused. Set permissions separately for worker dispatch, PR publication, cleanup and deployment.
 
-**Status.** The six Markdown templates and local preflight are available. Native Share Bot transfer and live delivery of automation events still need a recipient-side Orca test.
+**Status.** The three bot prompts, six standalone modules, and local preflight are available. Native Share Bot transfer and live delivery of automation events still need a recipient-side Orca test.
 
 ## Quick start
 
@@ -34,7 +34,7 @@ git clone git@github.com:BRYANN2K/orca-swe-bot-pack.git && orca repo add --path 
 
 This adds the Git project to Orca. Continue with the role you want to install.
 
-1. Pick a role from [the six bots](#the-six-bots). Create a bot in Orca and choose its host, agent and approval mode.
+1. Pick a role from [the three bots](#the-three-bots). Create a bot in Orca and choose its host, agent and approval mode.
 2. Paste the role's Markdown into its chat. Add this instruction and give it the repo and host when you know them.
 
    ```text
@@ -47,16 +47,19 @@ This adds the Git project to Orca. Continue with the role you want to install.
 
 Sample profiles for [Stipulate](profiles/stipulate.json), [OpenSpec](profiles/openspec.json) and [Markdown + main](profiles/markdown-main.json) show which fields to confirm for a real repository.
 
-## The six bots
+## The three bots
 
-| Template | First job to try |
+| Bot | Capabilities |
 | --- | --- |
 | [Spec & Delivery](dist/spec-delivery.md) | Triage issues from GitHub, GitLab or Linear and turn one ready work item into an approved spec. |
-| [PR Review & Docs](dist/pr-review-docs.md) | Review a PR against its criteria and identify the docs that belong in the same change. |
-| [Repository Maintenance](dist/repo-maintenance.md) | Find a merged worktree eligible for cleanup and explain which local data must be kept. |
-| [Security & Dependencies](dist/security-dependencies.md) | Match an advisory to the repo and deployed version, then prepare a narrowly scoped fix. |
-| [Release & Environments](dist/release-environments.md) | Prepare a promotion dossier with the candidate, smoke tests, and rollback. |
-| [Infrastructure Operations](dist/infrastructure-operations.md) | Summarize an existing deployment, drift or backup incident from the available evidence. |
+| [Review & Maintenance](dist/review-maintenance.md) | Independent PR and docs review, repository and worktree maintenance, and security and dependency triage. |
+| [Release & Operations](dist/release-operations.md) | Optional bot for environment promotions, release notes, rollback, and infrastructure health. |
+
+Enable modules one at a time within each bot. The original prompts also work as standalone modules.
+
+- **Spec & Delivery** · [Spec & Delivery module](dist/spec-delivery.md)
+- **Review & Maintenance** · [PR Review & Docs](dist/pr-review-docs.md), [Repository Maintenance](dist/repo-maintenance.md), [Security & Dependencies](dist/security-dependencies.md)
+- **Release & Operations** · [Release & Environments](dist/release-environments.md), [Infrastructure Operations](dist/infrastructure-operations.md)
 
 ## How the bots work together
 
@@ -64,8 +67,8 @@ On a project that uses one worktree per spec, a feature can move through the pac
 
 1. **Triage and plan.** Spec & Delivery detects new work in the configured trackers. A confirmed GitHub–Linear mirror can stay open in both. The team plans one work item within its cycle capacity or WIP limit.
 2. **Agree on scope.** Spec & Delivery records the approved revision, dispatches the worker when authorized, and reuses the same worktree for corrections.
-3. **Review the candidate.** PR Review & Docs checks the exact commit against the criteria and sends doc changes back to the worker in the same PR.
-4. **Ship, close and learn.** Release & Environments ties evidence to the promoted candidate. Repository Maintenance checks the merged worktree before any authorized cleanup. Delivery follows up on the product outcome and flow at the team's agreed cadence.
+3. **Review the candidate.** Review & Maintenance checks the exact commit independently and sends any fixes back to the delivery worker in the same PR.
+4. **Ship, close and learn.** Release & Operations ties evidence to the promoted candidate. Review & Maintenance checks the merged worktree before any authorized cleanup. Delivery follows up on the product outcome and flow at the team's agreed cadence.
 
 Security and infra changes can enter the same flow. An advisory or a GitOps discrepancy starts with evidence and a proposed change. The worker takes it through the configured approval, PR and release steps. Each role can also return its result directly in chat when installed on its own.
 

@@ -24,7 +24,7 @@ List the selected bot's existing routines. Keep every exact name that matches a 
 
 ```sh
 python3 scripts/pack.py routine-plan .local/profile.json \
-  --role pr-review-docs --bot "PR Review & Docs" --routine review-catchup
+  --role review-maintenance --bot "Review & Maintenance" --routine review-catchup
 ```
 
 Review the generated plan and actual saved scope. `review-existing` means inspect the current entry rather than duplicating it. Gather existing names immediately before creating a job. A matching name is a review signal, not proof that the live settings match. After reviewing and confirming creation, add the proposed job paused and run a read-only trial. Check bot, host, scope, destination, schedule, and next execution before enabling it. Webhooks are configured manually on the recipient's host.

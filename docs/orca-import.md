@@ -5,7 +5,7 @@ Source review pin: Orca v1.4.266. The installed CLI was 1.4.266. The paths below
 | Option | How Orca handles it | Pack fit |
 | --- | --- | --- |
 | Built-in Templates | Versioned catalog compiled into Orca. The template RPC inspected is `bots.templates.suggest`. Creating a known template reads the host catalog. | An upstream contribution could add native tiles. Each supported host would need the shipped catalog. |
-| Share Bot link | Share opens a review of selected parts and publishes a versioned package on Orca Cloud. Link review precedes creating a new bot. Recipients can choose host, agent, permission and which tools to import. Ask for approval starts selected. | Best native distribution candidate. Publish one clean reference bot per role and list six links in the release README. |
+| Share Bot link | Share opens a review of selected parts and publishes a versioned package on Orca Cloud. Link review precedes creating a new bot. Recipients can choose host, agent, permission and which tools to import. Ask for approval starts selected. | Publish one clean reference bot per grouped role and list three links in the release README. |
 | Import from another app | Finds OpenClaw, Hermes or OpenBot on the machine, or takes an export folder. A bot reads selected source files, proposes what to migrate and waits for user approval. | Migration path for an existing bot. The folder selection starts a guided import and is separate from receiving a Share Bot archive. |
 | New bot + Markdown | The owner starts an ordinary bot and pastes the generated role as a first message. | Pack's direct install. No dependence on a sharing account or Cloud link. Orca's own bot and connector support still applies. |
 | Share Skills | The installed CLI exposes `orca skills share`. | Can distribute reusable instructions. A skill install is separate from creating a bot, its permissions and automations. |
@@ -16,9 +16,9 @@ The native package has versioned `dev.orca.bot-sharing/bot.json` and transport m
 
 Schedules are imported paused. Event automations are offered as suggestions, with the recipient supplying targets and connectors. Some event suggestions carry the kind and name only in the recipient setup note, so keep the full recipe in the Markdown template. The application does not establish that a published update rewrites bots already installed from that link. Treat each installed bot as its own configuration and offer explicit upgrade review.
 
-## Prepare the six native links
+## Prepare the three native links
 
-1. Create six dedicated reference bots, one per generated Markdown file. Use clean histories and no live repo profile, credentials, tools or runtime data.
+1. Create three dedicated reference bots using `dist/spec-delivery.md`, `dist/review-maintenance.md`, and `dist/release-operations.md`. Use clean histories and no live repo profile, credentials, tools or runtime data.
 2. Put the generated role content into the reference bot's `SOUL.md` through its workspace editor. Keep the launch instruction explicit. Use this share setup note: “Run the setup interview. Confirm repository, workflow and permissions before registering routines.”
 3. Use Share Bot and inspect the candidate content. Choose only portable parts. Leave memory, private repo selectors, real connection details and environment-specific schedules off. The bundled recipes ask for timezone and triggers after import.
 4. After publication is authorized, publish one unlisted link per role from the intended Orca profile. Record the published package version and digest in release metadata when available.
