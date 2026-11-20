@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "defaults": {
+    "enabled": false,
+    "results_to": "chat",
+    "runs_in": "new"
+  },
+  "routines": [
+    {
+      "bot": "spec-delivery",
+      "id": "delivery-stalled",
+      "name": "Delivery blockers",
+      "tier": "opt-in",
+      "trigger": {
+        "cron": "15 10 * * 1-5"
+      },
+      "prompt": "List approved changes past the configured inactivity window. Check worker status and cite missing decisions, quota, or evidence. Offer resume in place."
+    },
+    {
+      "bot": "pr-review-docs",
+      "id": "review-catchup",
+      "name": "Review queue",
+      "tier": "recommended",
+      "trigger": {
+        "cron": "40 9 * * 1-5"
+      },
+      "prompt": "Find review-ready PRs with a new head SHA since the last completed review. Deduplicate against worker handoffs. Report candidates requiring review."
+    },
+    {
+      "bot": "pr-review-docs",
+      "id": "docs-drift",
+      "name": "Merged documentation drift",
+      "tier": "recommended",
+      "trigger": {
+        "cron": "20 11 * * 3"
+      },
+      "prompt": "Inspect merged PRs since the last successful scan. Report residual documentation gaps with source PR, page and proposed edit. Recheck if another PR fixed the gap."
+    },
+    {
+      "bot": "repo-maintenance",
+      "id": "maintenance-digest",
+      "name": "Maintenance digest",
+      "tier": "recommended",
+      "trigger": {
+        "cron": "30 15 * * 5"
+      },
+      "prompt": "Report eligible merged worktrees, retained local state, finished work without PR, recurring CI failures and outstanding routine upgrades. Propose one batch; perform no removal from this job."
+    },
+    {
+      "bot": "security-dependencies",
+      "id": "security-catchup",
+      "name": "Security advisory catch-up",
+      "tier": "recommended",
+      "trigger": {
+        "cron": "20 8 * * *"
+      },
+      "prompt": "Reconcile configured advisory and scanner sources against inventory and open PRs. Report new affected or unknown cases. Track deployed fixes by artifact evidence."
+    },
+    {
+      "bot": "release-environments",
+      "id": "release-readiness",
+      "name": "Release readiness",
+      "tier": "opt-in",
+      "trigger": {
+        "cron": "5 10 * * 1-5"
+      },
+      "prompt": "Check active release candidates and promotions. Report only changed readiness or a decision due. Identify the exact revision and artifact."
+    },
+    {
+      "bot": "infrastructure-operations",
+      "id": "infra-health",
+      "name": "Infrastructure health digest",
+      "tier": "recommended",
+      "trigger": {
+        "cron": "50 8 * * *"
+      },
+      "prompt": "Reconcile authorized monitoring, deploy state, certs, capacity and last successful backups. Report changes and blind spots. Let the monitoring service own urgent paging."
+    },
+    {
+      "bot": "infrastructure-operations",
+      "id": "restore-readiness",
+      "name": "Recovery readiness",
+      "tier": "opt-in",
+      "trigger": {
+        "cron": "35 10 1 * *"
+      },
+      "prompt": "Check restore evidence, RPO/RTO and runbook freshness. Propose a drill on an approved isolated target. Do not run a restore."
+    },
+    {
+      "bot": "pr-review-docs",
+      "id": "review-requested",
+      "name": "Explicit review requested",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "github",
+        "event": "review_requested"
+      },
+      "prompt": "Verify the event against trigger options. Match the PR and current head, then follow the approved review workflow."
+    },
+    {
+      "bot": "repo-maintenance",
+      "id": "merge-closure",
+      "name": "Worktree closure candidate",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "github",
+        "event": "pr_merged"
+      },
+      "prompt": "Check the configured integration branch and match the merge to a known worktree. Add a candidate to the digest. Perform no removal from this event."
+    },
+    {
+      "bot": "repo-maintenance",
+      "id": "ci-failed",
+      "name": "CI failure triage",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "github",
+        "event": "ci_failed"
+      },
+      "prompt": "Read the matching run if accessible. Deduplicate by repo, SHA, check and failure signature. Report probable cause, affected scope and evidence."
+    },
+    {
+      "bot": "security-dependencies",
+      "id": "security-alert",
+      "name": "Security alert triage",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "github",
+        "event": "security_alert"
+      },
+      "prompt": "Verify advisory identity and affected inventory. Use a private chat and align with the scheduled catch-up dedupe key. Report applicability and recommend next steps."
+    },
+    {
+      "bot": "release-environments",
+      "id": "deploy-finished",
+      "name": "Deployment verification",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "github",
+        "event": "deploy_finished"
+      },
+      "prompt": "Resolve the environment and deployed revision or digest. Verify the expected candidate and smoke-test evidence. Report mismatches."
+    },
+    {
+      "bot": "infrastructure-operations",
+      "id": "monitoring-webhook",
+      "name": "Monitoring event",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "webhook",
+        "event": "call"
+      },
+      "prompt": "Only accept allowlisted sources and environments. Deduplicate by incident ID. Read linked telemetry and report observed status with no production writes."
+    }
+  ]
+}

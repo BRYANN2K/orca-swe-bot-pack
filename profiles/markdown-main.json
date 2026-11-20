@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "repository": "example/app",
+  "host": null,
+  "timezone": null,
+  "spec": {
+    "tool": "Markdown",
+    "path": "docs/specs/",
+    "approval_signal": null,
+    "one_worktree_per_change": true
+  },
+  "delivery": {
+    "integration_branch": "main",
+    "promotions": [],
+    "production_signal": null
+  },
+  "ci": {
+    "provider": null,
+    "required_checks": []
+  },
+  "automations": {
+    "results_to": "chat",
+    "enabled": false
+  },
+  "authorization": {
+    "local_edits": "ask",
+    "worker_dispatch": "ask",
+    "pr_publication": "ask",
+    "cleanup": "ask",
+    "deployment": "manual"
+  }
+}

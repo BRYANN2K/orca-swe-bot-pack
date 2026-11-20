@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "repository": "example/app",
+  "change_id": "improve-export",
+  "contract": {
+    "ref": "example-approved-digest",
+    "approval_evidence": "Link to the approved change record"
+  },
+  "candidate": {
+    "worktree": "example-worktree-id",
+    "head_sha": "0123456789abcdef0123456789abcdef01234567",
+    "pr": 42
+  },
+  "next_role": "pr-review-docs",
+  "criteria": [
+    {
+      "id": "AC-1",
+      "status": "unverified",
+      "evidence": "Run the export scenario in staging and attach the observed output"
+    }
+  ],
+  "outcome": {
+    "expected_result": "Users can export without support intervention",
+    "signal": "Approved analytics or support-ticket signal",
+    "check_on": "First weekly review after rollout"
+  }
+}
