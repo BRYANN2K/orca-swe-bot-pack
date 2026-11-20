@@ -16,7 +16,7 @@ Start with one job. Each bot learns your repo, your workflow, and what it can do
 
 Between a spec and a release, there is work that repeats. Someone has to find the approved contract, check the PR against it, update the docs, reuse the right worktree, and verify what actually shipped. The templates give those jobs a consistent home in Orca.
 
-- **Bring your own workflow.** Start with Stipulate, OpenSpec, Markdown specs, or your team's process. Each bot asks about the branches, CI, environments and approval signals it needs for its role.
+- **Bring your own workflow.** Start with [Stipulate](https://github.com/BRYANN2K/stipulate-skills), OpenSpec, Markdown specs, or your team's process. Each bot asks about the branches, CI, environments and approval signals it needs for its role.
 - **Install one bot at a time.** Start with review, maintenance or another job you already do. Give the next bot the confirmed project profile so it can reuse those answers.
 - **Review routines before they run.** Choose the scope and destination, try a historical case, and create selected routines paused. Set permissions separately for worker dispatch, PR publication, cleanup and deployment.
 
@@ -76,6 +76,8 @@ Security and infra changes can enter the same flow. An advisory or a GitOps disc
 Use the Markdown files linked above to install locally. To distribute via **Share Bot**, prepare a clean reference bot for each role and review the contents before publishing its link. The [import guide](docs/orca-import.md) explains what Orca v1.4.266 can carry in a link, which schedules arrive paused, and which connectors and event targets the recipient configures.
 
 ## Develop and verify
+
+Open a pull request into `main` for changes to the pack.
 
 Edit the source role in `templates/` and regenerate the standalone file in `dist/`. These commands run locally.
 
