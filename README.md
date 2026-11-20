@@ -30,10 +30,10 @@ In Orca, open **Bots → + → New bot → Start from a template → From a link
 
 ### Install from Git
 
-From the parent directory where you keep projects, clone the pack and add it to Orca. The private repository requires GitHub SSH access on that host.
+From the parent directory where you keep projects, clone the pack over HTTPS and add it to Orca.
 
 ```sh
-git clone git@github.com:BRYANN2K/orca-swe-bot-pack.git && orca repo add --path "$PWD/orca-swe-bot-pack"
+git clone https://github.com/BRYANN2K/orca-swe-bot-pack.git && orca repo add --path "$PWD/orca-swe-bot-pack"
 ```
 
 This adds the Git project to Orca. Continue with the role you want to install.
