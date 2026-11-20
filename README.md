@@ -26,6 +26,14 @@ Between a spec and a release, there is work that repeats. Someone has to find th
 
 You need Orca with Bots enabled and an agent available on the chosen host. Python 3.10+ is required for the optional local preflight commands.
 
+From the parent directory where you keep projects, clone the pack and add it to Orca. The private repository requires GitHub SSH access on that host.
+
+```sh
+git clone git@github.com:BRYANN2K/orca-swe-bot-pack.git && orca repo add --path "$PWD/orca-swe-bot-pack"
+```
+
+This adds the Git project to Orca. Continue with the role you want to install.
+
 1. Pick a role from [the six bots](#the-six-bots). Create a bot in Orca and choose its host, agent and approval mode.
 2. Paste the role's Markdown into its chat. Add this instruction and give it the repo and host when you know them.
 
