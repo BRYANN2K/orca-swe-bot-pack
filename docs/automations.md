@@ -6,10 +6,13 @@ One owner per recurring signal. The default is a private bot chat, an owner-sele
 | --- | --- | --- |
 | Security advisory catch-up | Daily 08:20 plus security alert events when supported | New relevant or unknown findings. Prioritize explicit urgent evidence. |
 | Infrastructure health | Daily 08:50 plus optional scoped monitoring webhook | Changed health, stale signals, deployment mismatches, backup gaps. Monitoring handles paging. |
+| Issue intake | Weekdays 09:10 with optional GitHub and Linear event wakes, or a configured GitLab webhook | New work and tracker coverage gaps. Confirmed mirrors share one work identity. |
+| Backlog refinement | Monday 09:25, opt-in | Ready items, dependencies, priority decisions and proposed cycle scope or WIP. |
 | Review queue | Weekdays 09:40, explicit handoff first | A changed head SHA with no current completed review. |
 | Release readiness | Weekdays 10:05 during active release work | Changed state or a decision needed. Prefer deploy events for verification. |
 | Delivery blockers | Weekdays 10:15, opt-in | Approved work blocked by a missing decision, quota or evidence. |
 | Documentation drift | Wednesday 11:20 | Unresolved discrepancies between merged code and docs. |
+| Delivery and flow review | Friday 14:45, opt-in | Outcomes, carryover and blocked work counted by work ID. |
 | Maintenance digest | Friday 15:30 | Cleanup candidates, orphaned work, recurring CI and ordinary upgrades. |
 | Restore readiness | First day of month 10:35, opt-in | Last restore evidence and any drill to schedule. |
 
@@ -33,4 +36,4 @@ orca automations create --bot "Security & Dependencies" \
 
 After creation, inspect the saved host, scope, schedule, next run and destination. Test read-only first. Use support for a single owner digest only when a bot actually has access to the other results or a shared approved tracker. The individual templates work without a digest coordinator.
 
-[Versioned Orca automation guide](https://github.com/stablyai/orca/blob/v1.4.266/skill-guides/orca-cli/references/automations.md)
+[Configure issue intake and Agile cadence](issue-intake.md) · [Versioned Orca automation guide](https://github.com/stablyai/orca/blob/v1.4.266/skill-guides/orca-cli/references/automations.md)

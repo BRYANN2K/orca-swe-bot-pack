@@ -52,5 +52,8 @@ Supply the observed current PR head or clean worktree commit and the current app
 | Give the cleanup bot a merged worktree with ignored local data | It reports why it retained the worktree. |
 | Disable the connector before running catch-up | The bot reports missing data and retains the last-success cursor. |
 | Repeat setup with an existing routine | The plan requests review instead of proposing a duplicate creation. |
+| Replay linked, open GitHub and Linear issues alongside a same-title GitLab issue | The mirrors share one work ID and retain independent states. The GitLab item remains separate. |
 
 Run the first pass on a Stipulate repo, then use an independent OpenSpec or Markdown fixture. Log observed bot behavior, commands, and evidence separately from remaining gaps. The runtime pilot is separate from the local checks in this repository.
+
+[Configure tracker intake and board cadence](issue-intake.md)
