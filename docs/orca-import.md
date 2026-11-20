@@ -19,10 +19,18 @@ Schedules are imported paused. Event automations are offered as suggestions, wit
 ## Prepare the three native links
 
 1. Create three dedicated reference bots using `dist/spec-delivery.md`, `dist/review-maintenance.md`, and `dist/release-operations.md`. Use clean histories and no live repo profile, credentials, tools or runtime data.
-2. Put the generated role content into the reference bot's `SOUL.md` through its workspace editor. Keep the launch instruction explicit. Use this share setup note: “Run the setup interview. Confirm repository, workflow and permissions before registering routines.”
-3. Use Share Bot and inspect the candidate content. Choose only portable parts. Leave memory, private repo selectors, real connection details and environment-specific schedules off. The bundled recipes ask for timezone and triggers after import.
+2. Put the generated role content into the reference bot's `SOUL.md`. Copy the role's skills from [the sharing sources](../templates/sharing/) into the bot's skill directory. For Grok, use `.agents/skills/<skill>/SKILL.md`. Paste the role's `SETUP.md` into **Setup note** in the share dialog.
+3. Add the paused starter schedules below using the matching [recipe](../templates/routines.json). Keep prompts scoped to the recipient's confirmed setup, report results in chat, and leave the timezone for the recipient to confirm. Use Share Bot to inspect and select the note, skills and schedules. Keep memory, private repo targets, credentials and personal connector settings out of the share.
 4. After publication is authorized, publish one unlisted link per role from the intended Orca profile. Record the published package version and digest in release metadata when available.
 5. On a clean recipient profile, open the link and select an agent, host and approval mode. Verify the reviewed content, ask the first-run question in chat if the host does not launch the interview automatically, and confirm sample connections and routines stay disabled until chosen. Try one manual read-only run. Repeat for each role before listing the links publicly.
+
+| Bot | Paused starter schedules |
+| --- | --- |
+| Spec & Delivery | `issue-catchup` |
+| Review & Maintenance | `review-catchup`, `security-catchup` |
+| Release & Operations | `release-readiness` |
+
+The setup interview confirms whether optional maintenance, security, release, or infrastructure modules apply. Additional schedules and event triggers remain available in the role instructions.
 
 The project artifacts are portable Markdown. No general local bot-package ZIP or JSON import was found in the inspected CLI, catalog RPC, sharing renderer or migration UI. The archive schema describes the link transport. Producing a lookalike ZIP would leave users without a supported installation path. Using an unpublished internal Cloud RPC would make this pack depend on a private contract.
 

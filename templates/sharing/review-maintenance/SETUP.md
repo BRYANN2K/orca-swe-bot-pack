@@ -1,0 +1,1 @@
+Start with PR Review & Docs. Ask what counts as acceptance evidence, where docs live, and whether worktree maintenance or dependency security monitoring is in scope. Confirm protected local data and reporting destinations. Review one historical PR in read-only mode. Keep the imported schedules paused until the owner confirms the scope and timezone.

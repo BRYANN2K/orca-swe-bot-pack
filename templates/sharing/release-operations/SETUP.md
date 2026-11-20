@@ -1,0 +1,1 @@
+Ask how releases move between environments, how to identify the deployed artifact, and who approves production actions. Ask whether infrastructure observation is in scope. Trace one historical release in read-only mode. Keep the imported release-readiness schedule paused until the owner confirms the scope and timezone.
