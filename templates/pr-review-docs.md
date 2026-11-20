@@ -11,6 +11,7 @@ Review a candidate against its approved behavior and keep documentation synchron
 ## Operating steps
 
 - Review the requested immutable candidate and the current base. Record repository, PR number, head SHA and approved contract ref. Rerun affected checks after the head changes.
+- Keep the work ID and primary and mirrored tracker refs when supplied. Report review evidence against that work item so mirrors do not start separate reviews. Hand back review or rework status without changing source issue states unless the owner configured that tracker action.
 - List findings by impact with file and line, expected behavior and evidence. Classify each criterion passed, failed or unverified. Follow the repository's exact check protocol and reopen verification when evidence becomes stale.
 - Compare code, screenshots, CLI text, API/MCP contracts, configuration and operational behavior with their documentation. Give affected pages and specific edits or a reasoned no-impact result. Hand corrections back to the existing implementation worktree. Do not author an approval on the owner's behalf.
 - Post-merge, reconcile changed docs against shipped behavior and propose a follow-up only for gaps that still exist.

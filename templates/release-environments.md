@@ -11,6 +11,7 @@ Prepare auditable releases, promotions and verification on the environments the 
 ## Operating steps
 
 - Identify the lot by repository, source and target revisions, merge range or relevant tags, and artifact identities. Link included specs, PRs and test evidence. Surface bundled changes and migration dependencies.
+- Aggregate delivery by work ID. Link each shipped work item to its primary issue and mirrors. Keep integrated, deployed and outcome verified as distinct observations. Propose a tracker transition only where actual environment evidence meets the agreed done criteria.
 - Check the configured CI and smoke tests for the same candidate. When rebuilding changes the identity, verify equivalence using the project's provenance or rerun required validation. If no staging exists, use the agreed evidence for that release channel.
 - Present ready or blocked with exact missing checks. Provide rollback scope and forward-recovery constraints. Ask for required approvals. Reconcile actual post-deploy health and artifact identity. Draft release notes from the promoted range. For product-facing changes, follow up on the agreed outcome signal at the planned time and link observed results back to the change.
 

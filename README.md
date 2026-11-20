@@ -6,7 +6,7 @@
 
 Start with one job. Each bot learns your repo, your workflow, and what it can do before you turn on its routines.
 
-[Quick start](#quick-start) · [Browse the bots](#the-six-bots) · [How they work together](#how-the-bots-work-together) · [Orca import and sharing](docs/orca-import.md)
+[Quick start](#quick-start) · [Browse the bots](#the-six-bots) · [Issue intake & Agile delivery](docs/issue-intake.md) · [Orca import and sharing](docs/orca-import.md)
 
 </div>
 
@@ -16,7 +16,7 @@ Start with one job. Each bot learns your repo, your workflow, and what it can do
 
 Between a spec and a release, there is work that repeats. Someone has to find the approved contract, check the PR against it, update the docs, reuse the right worktree, and verify what actually shipped. The templates give those jobs a consistent home in Orca.
 
-- **Bring your own workflow.** Start with Stipulate, OpenSpec, Markdown specs, or your team's process. Each bot asks about the branches, CI, environments and approval signals it needs for its role.
+- **Bring your own workflow.** Start with [Stipulate](https://github.com/BRYANN2K/stipulate-skills), OpenSpec, Markdown specs, or your team's process. Each bot asks about the branches, CI, environments and approval signals it needs for its role.
 - **Install one bot at a time.** Start with review, maintenance or another job you already do. Give the next bot the confirmed project profile so it can reuse those answers.
 - **Review routines before they run.** Choose the scope and destination, try a historical case, and create selected routines paused. Set permissions separately for worker dispatch, PR publication, cleanup and deployment.
 
@@ -51,7 +51,7 @@ Sample profiles for [Stipulate](profiles/stipulate.json), [OpenSpec](profiles/op
 
 | Template | First job to try |
 | --- | --- |
-| [Spec & Delivery](dist/spec-delivery.md) | Turn a request into an approved spec and identify the worktree that owns it. |
+| [Spec & Delivery](dist/spec-delivery.md) | Triage issues from GitHub, GitLab or Linear and turn one ready work item into an approved spec. |
 | [PR Review & Docs](dist/pr-review-docs.md) | Review a PR against its criteria and identify the docs that belong in the same change. |
 | [Repository Maintenance](dist/repo-maintenance.md) | Find a merged worktree eligible for cleanup and explain which local data must be kept. |
 | [Security & Dependencies](dist/security-dependencies.md) | Match an advisory to the repo and deployed version, then prepare a narrowly scoped fix. |
@@ -62,9 +62,10 @@ Sample profiles for [Stipulate](profiles/stipulate.json), [OpenSpec](profiles/op
 
 On a project that uses one worktree per spec, a feature can move through the pack like this.
 
-1. **Agree on scope.** Spec & Delivery records the approved revision, dispatches the worker when authorized, and reuses the same worktree for corrections.
-2. **Review the candidate.** PR Review & Docs checks the exact commit against the criteria and sends doc changes back to the worker in the same PR.
-3. **Ship and close.** Release & Environments ties staging and production evidence to the promoted candidate. Repository Maintenance checks the merged worktree and its local state before any authorized cleanup.
+1. **Triage and plan.** Spec & Delivery detects new work in the configured trackers. A confirmed GitHub–Linear mirror can stay open in both. The team plans one work item within its cycle capacity or WIP limit.
+2. **Agree on scope.** Spec & Delivery records the approved revision, dispatches the worker when authorized, and reuses the same worktree for corrections.
+3. **Review the candidate.** PR Review & Docs checks the exact commit against the criteria and sends doc changes back to the worker in the same PR.
+4. **Ship, close and learn.** Release & Environments ties evidence to the promoted candidate. Repository Maintenance checks the merged worktree before any authorized cleanup. Delivery follows up on the product outcome and flow at the team's agreed cadence.
 
 Security and infra changes can enter the same flow. An advisory or a GitOps discrepancy starts with evidence and a proposed change. The worker takes it through the configured approval, PR and release steps. Each role can also return its result directly in chat when installed on its own.
 
@@ -75,6 +76,8 @@ Security and infra changes can enter the same flow. An advisory or a GitOps disc
 Use the Markdown files linked above to install locally. To distribute via **Share Bot**, prepare a clean reference bot for each role and review the contents before publishing its link. The [import guide](docs/orca-import.md) explains what Orca v1.4.266 can carry in a link, which schedules arrive paused, and which connectors and event targets the recipient configures.
 
 ## Develop and verify
+
+Open a pull request into `main` for changes to the pack.
 
 Edit the source role in `templates/` and regenerate the standalone file in `dist/`. These commands run locally.
 

@@ -11,6 +11,7 @@ from build import ROLES, load_routines
 
 REPOSITORY = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")
 SHA = re.compile(r"[0-9a-f]{40}|[0-9a-f]{64}")
+LINEAR_SCOPE = re.compile(r"[A-Za-z0-9_-]+(?::[A-Za-z0-9_-]+){0,2}")
 ACTIONS = {
     "local_edits", "worker_dispatch", "pr_publication", "cleanup", "deployment"
 }
@@ -104,10 +105,13 @@ def validate_profile(profile):
 
 
 def validate_handoff(handoff, profile, current_head, current_contract):
+    fields = {"schema_version", "repository", "change_id", "contract", "candidate",
+              "next_role", "criteria", "outcome"}
+    if isinstance(handoff, dict) and "work_item" in handoff:
+        fields.add("work_item")
     require_object(
         handoff,
-        {"schema_version", "repository", "change_id", "contract", "candidate",
-         "next_role", "criteria", "outcome"},
+        fields,
         "handoff",
     )
     require(type(handoff["schema_version"]) is int and handoff["schema_version"] == 1,
@@ -115,6 +119,15 @@ def validate_handoff(handoff, profile, current_head, current_contract):
     require(handoff["repository"] == profile["repository"], "Repository mismatch")
     require_text(handoff, "change_id", "handoff")
     require(handoff["next_role"] in ROLES, "Unknown next role")
+    if "work_item" in handoff:
+        work = handoff["work_item"]
+        require_object(work, {"id", "primary", "refs"}, "work item")
+        require_text(work, "id", "work item")
+        require_text(work, "primary", "work item")
+        refs = work["refs"]
+        require(isinstance(refs, list) and all(nonempty(ref) for ref in refs)
+                and len(refs) == len(set(refs)) and work["primary"] in refs,
+                "Work refs must be unique and include the primary issue")
     contract = handoff["contract"]
     require_object(contract, {"ref", "approval_evidence"}, "contract")
     require_text(contract, "ref", "contract")
@@ -152,7 +165,9 @@ def validate_handoff(handoff, profile, current_head, current_contract):
     return all(criterion["status"] == "passed" for criterion in entries)
 
 
-def plan_routines(profile, role, bot, selected, available_events, existing_names=()):
+def plan_routines(
+    profile, role, bot, selected, available_events, existing_names=(), linear_scope=None
+):
     recipes = {entry["id"]: entry for entry in load_routines()[role]}
     require(len(selected) == len(set(selected)), "Repeated routine ID")
     require(nonempty(bot), "Provide the actual bot name")
@@ -171,10 +186,15 @@ def plan_routines(profile, role, bot, selected, available_events, existing_names
             args += ["--trigger", trigger["cron"], "--timezone", profile["timezone"]]
         else:
             event = f"{trigger['source']}.{trigger['event']}"
-            require(trigger["source"] == "github",
+            require(trigger["source"] in {"github", "linear"},
                     "Webhook setup requires manual owner validation in Orca")
             require(event in available_events, f"Verify {event} in current trigger options first")
-            args += ["--on", f"{event} in={profile['repository']}"]
+            scope = profile["repository"]
+            if trigger["source"] == "linear":
+                require(linear_scope is not None and LINEAR_SCOPE.fullmatch(linear_scope),
+                        "Provide the confirmed Linear team key or connector scope")
+                scope = linear_scope
+            args += ["--on", f"{event} in={scope}"]
         prompt = (
             f"Scope: {profile['repository']} on host {profile['host']}, "
             f"integration branch {profile['delivery']['integration_branch']}. "
@@ -211,6 +231,7 @@ def main():
     routine_plan.add_argument("--routine", required=True, action="append")
     routine_plan.add_argument("--available-event", action="append", default=[])
     routine_plan.add_argument("--existing-name", action="append", default=[])
+    routine_plan.add_argument("--linear-scope", help="Confirmed Linear team key or connector scope")
     args = parser.parse_args()
     try:
         profile = load_json(args.profile)
@@ -224,7 +245,8 @@ def main():
             print(json.dumps({"valid": True, "all_listed_criteria_passed": all_passed}))
         else:
             plan = plan_routines(
-                profile, args.role, args.bot, args.routine, args.available_event, args.existing_name
+                profile, args.role, args.bot, args.routine, args.available_event,
+                args.existing_name, args.linear_scope
             )
             print(json.dumps(plan, indent=2, ensure_ascii=False))
     except (OSError, ValueError) as error:

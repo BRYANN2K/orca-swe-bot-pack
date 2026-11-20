@@ -17,6 +17,69 @@
       "prompt": "List approved changes past the configured inactivity window. Check worker status and cite missing decisions, quota, or evidence. Offer resume in place."
     },
     {
+      "bot": "spec-delivery",
+      "id": "issue-catchup",
+      "name": "Issue intake catch-up",
+      "tier": "recommended",
+      "trigger": {
+        "cron": "10 9 * * 1-5"
+      },
+      "prompt": "Reconcile new and changed issues from the confirmed GitHub repositories, GitLab projects, and Linear teams. Keep source cursors independent and link only verified mirrors. Report new work, unconfirmed matches and missing coverage once. Reuse existing specs."
+    },
+    {
+      "bot": "spec-delivery",
+      "id": "github-issue-opened",
+      "name": "GitHub issue intake",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "github",
+        "event": "issue_opened"
+      },
+      "prompt": "Read the matching GitHub issue in its configured repository and check existing work and confirmed mirrors before suggesting triage. Use the same work identity as issue catch-up."
+    },
+    {
+      "bot": "spec-delivery",
+      "id": "linear-issue-created",
+      "name": "Linear issue intake",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "linear",
+        "event": "issue_created"
+      },
+      "prompt": "Read the matching Linear issue in its configured workspace and team and check existing work and confirmed mirrors before suggesting triage. Use the same work identity as issue catch-up."
+    },
+    {
+      "bot": "spec-delivery",
+      "id": "gitlab-issue-webhook",
+      "name": "GitLab issue intake webhook",
+      "tier": "opt-in",
+      "trigger": {
+        "source": "webhook",
+        "event": "call"
+      },
+      "prompt": "Accept only the configured GitLab instance and project identity on a webhook authenticated by Orca or an approved relay. Fetch the matching issue from GitLab, reconcile known mirrors and use the same identity as issue catch-up. Reject unsupported events and unknown projects."
+    },
+    {
+      "bot": "spec-delivery",
+      "id": "backlog-refinement",
+      "name": "Backlog refinement",
+      "tier": "opt-in",
+      "trigger": {
+        "cron": "25 9 * * 1"
+      },
+      "prompt": "Review new, stale, blocked and high-impact work. Propose ready items according to the confirmed readiness criteria, capacity or WIP limits. For cycles, use the agreed planning date and skip if no planning is due."
+    },
+    {
+      "bot": "spec-delivery",
+      "id": "delivery-review",
+      "name": "Delivery and flow review",
+      "tier": "opt-in",
+      "trigger": {
+        "cron": "45 14 * * 5"
+      },
+      "prompt": "Summarize the configured review window using unique work items, collecting evidence of shipped outcomes, carryover, aging and blockers. Suggest one process improvement. Skip this when the team's review is not due."
+    },
+    {
       "bot": "pr-review-docs",
       "id": "review-catchup",
       "name": "Review queue",

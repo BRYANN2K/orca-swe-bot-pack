@@ -2,6 +2,14 @@
   "schema_version": 1,
   "repository": "example/app",
   "change_id": "improve-export",
+  "work_item": {
+    "id": "work:widget-export-timeout",
+    "primary": "linear:example:11111111-2222-3333-4444-555555555555",
+    "refs": [
+      "linear:example:11111111-2222-3333-4444-555555555555",
+      "github:github.com/example/widget:42"
+    ]
+  },
   "contract": {
     "ref": "example-approved-digest",
     "approval_evidence": "Link to the approved change record"

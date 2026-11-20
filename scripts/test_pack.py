@@ -65,6 +65,15 @@ class PackChecks(unittest.TestCase):
         self.assertIn("github.pr_merged in=pilot/widget", argv)
         self.assertIn("--disabled", argv)
 
+    def test_linear_scope_is_explicit_and_single(self):
+        args = (confirmed_profile(), "spec-delivery", "Delivery",
+                ["linear-issue-created"], ["linear.issue_created"])
+        for scope in (None, "ENG,OPS", "ENG from=any"):
+            with self.subTest(scope=scope), self.assertRaisesRegex(ValueError, "Linear team"):
+                plan_routines(*args, linear_scope=scope)
+        argv = plan_routines(*args, linear_scope="linear:install-id:team-id")["routines"][0]["argv"]
+        self.assertIn("linear.issue_created in=linear:install-id:team-id", argv)
+
     def test_changed_head_or_contract_invalidates_handoff(self):
         handoff = load_json(ROOT / "profiles" / "handoff.example.json")
         profile = confirmed_profile()
@@ -78,6 +87,16 @@ class PackChecks(unittest.TestCase):
             validate_handoff(handoff, profile, "f" * 40, contract)
         with self.assertRaisesRegex(ValueError, "approved contract changed"):
             validate_handoff(handoff, profile, head, "different")
+
+    def test_work_item_links_preserve_primary_and_mirrors(self):
+        handoff = load_json(ROOT / "profiles" / "handoff.example.json")
+        profile = confirmed_profile()
+        handoff["repository"] = profile["repository"]
+        args = (handoff, profile, handoff["candidate"]["head_sha"], handoff["contract"]["ref"])
+        self.assertFalse(validate_handoff(*args))
+        handoff["work_item"]["refs"].remove(handoff["work_item"]["primary"])
+        with self.assertRaisesRegex(ValueError, "include the primary"):
+            validate_handoff(*args)
 
     def test_cron_rejects_out_of_range_and_reversed_fields(self):
         self.assertTrue(valid_cron("40 9 * * 1-5"))
